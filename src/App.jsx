@@ -86,6 +86,11 @@ function DrinkArtwork({ drink }) {
 
 function App() {
   const [now, setNow] = useState(() => Date.now())
+  const [baseTheme, setBaseTheme] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light',
+  )
   const [hasScrolled, setHasScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [flyerOpen, setFlyerOpen] = useState(false)
@@ -94,6 +99,7 @@ function App() {
   const flyerTriggerRef = useRef(null)
   const flyerCloseButtonRef = useRef(null)
   const eventIsLive = isEventWindowActive(now)
+  const darkAppearance = eventIsLive || baseTheme === 'dark'
   const eventIsPast = now >= eventEnd
   const countdown = getCountdown(eventStart, now)
   const drinkOfTheDay = getDrinkOfTheDay(now)
@@ -214,15 +220,14 @@ function App() {
   }, [])
 
   useEffect(() => {
-    document.documentElement.classList.toggle('event-mode', eventIsLive)
+    const root = document.documentElement
+    root.classList.toggle('event-mode', eventIsLive)
+    root.classList.toggle('theme-dark', !eventIsLive && baseTheme === 'dark')
     const themeColor = document.querySelector('meta[name="theme-color"]')
-    if (themeColor) themeColor.content = eventIsLive ? '#080808' : '#ffffff'
-
-    return () => {
-      document.documentElement.classList.remove('event-mode')
-      if (themeColor) themeColor.content = '#ffffff'
-    }
-  }, [eventIsLive])
+    if (themeColor) themeColor.content = eventIsLive || baseTheme === 'dark' ? '#080808' : '#ffffff'
+    const favicon = document.querySelector('link[rel="icon"]')
+    if (favicon) favicon.href = eventIsLive ? '/images/all-black-event-logo.png' : '/images/le-mont-royal-logo.png'
+  }, [eventIsLive, baseTheme])
 
   const eventStatus = eventIsLive
     ? "L'événement est en cours"
@@ -234,23 +239,29 @@ function App() {
     <div className="min-h-screen pb-[82px] text-[var(--ink)] transition-colors duration-700 md:pb-0">
       <header className={`site-header sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--page)]/90 backdrop-blur-xl ${hasScrolled ? 'is-scrolled' : ''}`}>
         <div className="mx-auto flex h-[78px] max-w-[1320px] items-center justify-between gap-3 px-4 sm:h-[86px] sm:px-7 lg:px-12">
-          <a className="flex min-w-0 shrink-0 items-center gap-2.5 sm:gap-3" href="#accueil" aria-label="Le Mont Royal, accueil">
-            <span className="flex size-[54px] items-center justify-center rounded-full bg-[var(--accent)] p-[3px] sm:size-[62px]">
-              <span className="flex size-full items-center justify-center rounded-full bg-black">
-                <img
-                  className="h-[36px] w-[48px] object-contain sm:h-[42px] sm:w-[56px]"
-                  src={eventIsLive ? '/images/all-black-event-logo.png' : '/images/le-mont-royal-logo.png'}
-                  alt={eventIsLive ? 'Logo Le Mont Royal pour la soirée All Black' : 'Logo Le Mont Royal'}
-                  width="612"
-                  height="408"
-                />
-              </span>
-            </span>
+          <div className="flex min-w-0 shrink-0 items-center gap-2.5 sm:gap-3">
+            <button
+              className={`theme-logo-button ${darkAppearance ? 'theme-logo-button-dark' : 'theme-logo-button-light'}`}
+              type="button"
+              aria-label={eventIsLive ? 'Thème de la soirée All Black actif' : `Activer le thème ${darkAppearance ? 'clair' : 'sombre'}`}
+              aria-pressed={darkAppearance}
+              title={eventIsLive ? 'Le thème événement est actif' : `Passer au thème ${darkAppearance ? 'clair' : 'sombre'}`}
+              disabled={eventIsLive}
+              onClick={() => setBaseTheme((theme) => theme === 'dark' ? 'light' : 'dark')}
+            >
+              <img
+                className="h-[36px] w-[48px] object-contain sm:h-[42px] sm:w-[56px]"
+                src={eventIsLive ? '/images/all-black-event-logo.png' : '/images/le-mont-royal-logo.png'}
+                alt=""
+                width="612"
+                height="408"
+              />
+            </button>
             <span className="hidden min-w-0 flex-col sm:flex">
               <span className="font-display text-sm font-bold uppercase tracking-[0.08em] text-[var(--ink)] lg:text-base">Le Mont Royal</span>
               <span className="mt-0.5 text-[8px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">Bafoussam · Cameroun</span>
             </span>
-          </a>
+          </div>
 
           <nav className="hidden items-center gap-3 md:flex lg:gap-6" aria-label="Navigation principale">
             {navigation.map((item) => (

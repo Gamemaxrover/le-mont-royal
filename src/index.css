@@ -53,6 +53,19 @@
   --page-overlay: var(--theme-event-page-overlay);
 }
 
+:root.theme-dark:not(.event-mode) {
+  color-scheme: dark;
+  --page: rgb(18 19 21 / 91%);
+  --ink: #f7f5f0;
+  --muted: #beb8ad;
+  --surface: rgb(34 35 37 / 86%);
+  --line: rgb(255 255 255 / 13%);
+  --accent: var(--theme-base-accent);
+  --icon-surface: rgb(45 46 48 / 94%);
+  --icon-ink: #f6a05d;
+  --page-overlay: rgb(18 19 21 / 80%);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -419,6 +432,37 @@ button:focus-visible {
   outline-offset: 4px;
 }
 
+.theme-logo-button {
+  display: inline-flex;
+  width: 54px;
+  height: 54px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 420ms ease, border-color 420ms ease, box-shadow 220ms ease, transform 220ms ease;
+}
+
+.theme-logo-button-light {
+  background-color: #080808;
+}
+
+.theme-logo-button-dark {
+  background-color: #fff;
+}
+
+.theme-logo-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 32%, transparent);
+}
+
+.theme-logo-button:disabled {
+  cursor: default;
+}
+
 .site-header {
   border-color: color-mix(in srgb, var(--line) 78%, transparent);
   box-shadow: 0 8px 26px rgb(22 16 8 / 5%);
@@ -697,6 +741,11 @@ html.reveal-enabled [data-reveal].is-visible {
 }
 
 @media (min-width: 640px) {
+  .theme-logo-button {
+    width: 62px;
+    height: 62px;
+  }
+
   .drink-card {
     flex-basis: 246px;
   }
