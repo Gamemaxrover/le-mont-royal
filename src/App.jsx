@@ -105,6 +105,11 @@ function App() {
   const eventIsPast = now >= eventEnd
   const countdown = getCountdown(eventStart, now)
   const drinkOfTheDay = getDrinkOfTheDay(now)
+  const logoButtonTheme = eventIsLive
+    ? 'theme-logo-button-event'
+    : baseTheme === 'dark'
+      ? 'theme-logo-button-dark'
+      : 'theme-logo-button-light'
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(Date.now()), 1000)
@@ -269,28 +274,31 @@ function App() {
 
   return (
     <div className="min-h-screen pb-[82px] text-[var(--ink)] transition-colors duration-700 md:pb-0">
-      <header className={`site-header sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--page)]/90 backdrop-blur-xl ${hasScrolled ? 'is-scrolled' : ''}`}>
+      <header className={`site-header page-intro sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--page)]/90 backdrop-blur-xl ${hasScrolled ? 'is-scrolled' : ''}`}>
         <div className="mx-auto flex h-[78px] max-w-[1320px] items-center justify-between gap-3 px-4 sm:h-[86px] sm:px-7 lg:px-12">
           <div className="flex min-w-0 shrink-0 items-center gap-2.5 sm:gap-3">
-            <button
-              className={`theme-logo-button ${darkAppearance ? 'theme-logo-button-dark' : 'theme-logo-button-light'}`}
-              type="button"
-              aria-label={eventIsLive ? 'Logo Le Mont Royal, thème événement actif' : `Changer le thème ou double-taper pour revenir à l’accueil`}
-              aria-pressed={darkAppearance}
-              aria-disabled={eventIsLive}
-              title={eventIsLive ? 'Thème événement · double-taper pour l’accueil' : 'Appuyer pour changer le thème · double-taper pour l’accueil'}
-              onClick={handleLogoButtonClick}
-              onContextMenu={(event) => event.preventDefault()}
-            >
-              <img
-                className="h-[36px] w-[48px] object-contain sm:h-[42px] sm:w-[56px]"
-                src={eventIsLive ? '/images/all-black-event-logo.png' : '/images/le-mont-royal-logo.png'}
-                alt=""
-                draggable="false"
-                width="612"
-                height="408"
-              />
-            </button>
+            <div className="logo-lockup">
+              <button
+                className={`theme-logo-button ${logoButtonTheme}`}
+                type="button"
+                aria-label={eventIsLive ? 'Logo Le Mont Royal, thème événement actif' : 'Changer le thème, double-taper pour revenir à l’accueil'}
+                aria-pressed={darkAppearance}
+                aria-disabled={eventIsLive}
+                title={eventIsLive ? 'Thème événement · double-taper pour l’accueil' : 'Appuyer pour changer le thème · double-taper pour l’accueil'}
+                onClick={handleLogoButtonClick}
+                onContextMenu={(event) => event.preventDefault()}
+              >
+                <img
+                  className="logo-mark h-[36px] w-[48px] object-contain sm:h-[42px] sm:w-[56px]"
+                  src={eventIsLive ? '/images/all-black-event-logo.png' : '/images/le-mont-royal-logo.png'}
+                  alt=""
+                  draggable="false"
+                  width="612"
+                  height="408"
+                />
+              </button>
+              <span className="logo-welcome">BIENVENUE</span>
+            </div>
             <span className="hidden min-w-0 flex-col sm:flex">
               <span className="font-display text-sm font-bold uppercase tracking-[0.08em] text-[var(--ink)] lg:text-base">Le Mont Royal</span>
               <span className="mt-0.5 text-[8px] font-semibold uppercase tracking-[0.18em] text-[var(--muted)]">Bafoussam · Cameroun</span>
@@ -414,7 +422,7 @@ function App() {
 
         <section id="accueil" className="scroll-mt-8">
           <div className="mx-auto max-w-[1440px] px-3 pt-4 sm:px-6 sm:pt-7 lg:px-10">
-            <div className="hero-stage" data-reveal>
+            <div className="hero-stage page-intro" data-reveal>
               <img
                 className="hero-stage-image"
                 src="/images/placeholder-venue.jpg"

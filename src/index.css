@@ -445,7 +445,7 @@ button:focus-visible {
   cursor: pointer;
   touch-action: manipulation;
   user-select: none;
-  transition: background-color 520ms ease, border-color 520ms ease, box-shadow 220ms ease, transform 220ms ease;
+  transition: background-color 650ms ease, border-color 650ms ease, box-shadow 220ms ease, transform 220ms ease;
 }
 
 .theme-logo-button img {
@@ -456,11 +456,62 @@ button:focus-visible {
 
 .theme-logo-button-light {
   background-color: #080808;
+  border-color: #080808;
 }
 
 .theme-logo-button-dark {
-  background-color: #fff5e6;
-  border-color: #fff5e6;
+  background-color: var(--theme-base-accent);
+  border-color: var(--theme-base-accent);
+}
+
+.theme-logo-button-event {
+  background-color: var(--theme-event-accent);
+  border-color: var(--theme-event-accent);
+}
+
+.logo-lockup {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  animation: logo-arrive 680ms cubic-bezier(0.2, 0.7, 0.25, 1) both;
+}
+
+.logo-welcome {
+  display: inline-flex;
+  min-height: 14px;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 5px;
+  border: 1px solid color-mix(in srgb, var(--accent) 52%, transparent);
+  border-radius: 999px;
+  background: rgb(8 8 8 / 88%);
+  color: #fffaf0;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  animation: welcome-arrive 650ms ease-out 180ms both;
+}
+
+.page-intro {
+  animation: page-arrive 760ms cubic-bezier(0.2, 0.7, 0.25, 1) both;
+}
+
+@keyframes logo-arrive {
+  from { opacity: 0; transform: translateY(-8px) scale(0.94); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes welcome-arrive {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes page-arrive {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .theme-logo-button:hover:not(:disabled) {
@@ -761,6 +812,12 @@ html.reveal-enabled [data-reveal].is-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .logo-lockup,
+  .logo-welcome,
+  .page-intro {
+    animation: none;
+  }
+
   html.reveal-enabled [data-reveal] {
     opacity: 1;
     transform: none;
