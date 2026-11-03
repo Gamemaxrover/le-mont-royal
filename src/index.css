@@ -443,7 +443,15 @@ button:focus-visible {
   border: 2px solid var(--accent);
   border-radius: 50%;
   cursor: pointer;
-  transition: background-color 420ms ease, border-color 420ms ease, box-shadow 220ms ease, transform 220ms ease;
+  touch-action: manipulation;
+  user-select: none;
+  transition: background-color 520ms ease, border-color 520ms ease, box-shadow 220ms ease, transform 220ms ease;
+}
+
+.theme-logo-button img {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .theme-logo-button-light {
@@ -451,7 +459,8 @@ button:focus-visible {
 }
 
 .theme-logo-button-dark {
-  background-color: #fff;
+  background-color: #fff5e6;
+  border-color: #fff5e6;
 }
 
 .theme-logo-button:hover:not(:disabled) {
@@ -459,7 +468,7 @@ button:focus-visible {
   box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 32%, transparent);
 }
 
-.theme-logo-button:disabled {
+.theme-logo-button[aria-disabled='true'] {
   cursor: default;
 }
 

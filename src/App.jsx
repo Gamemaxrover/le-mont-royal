@@ -94,6 +94,8 @@ function App() {
   const [hasScrolled, setHasScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [flyerOpen, setFlyerOpen] = useState(false)
+  const logoTapTimerRef = useRef(null)
+  const lastLogoTapRef = useRef(0)
   const drinksTrackRef = useRef(null)
   const drinksSectionRef = useRef(null)
   const flyerTriggerRef = useRef(null)
@@ -108,6 +110,8 @@ function App() {
     const timer = window.setInterval(() => setNow(Date.now()), 1000)
     return () => window.clearInterval(timer)
   }, [])
+
+  useEffect(() => () => window.clearTimeout(logoTapTimerRef.current), [])
 
   useEffect(() => {
     const updateScrollState = () => setHasScrolled(window.scrollY > 24)
@@ -235,6 +239,34 @@ function App() {
       ? 'Événement terminé'
       : 'Prochain rendez-vous'
 
+  const handleLogoButtonClick = (event) => {
+    if (event.detail === 0) {
+      if (!eventIsLive) setBaseTheme((theme) => theme === 'dark' ? 'light' : 'dark')
+      return
+    }
+
+    const now = Date.now()
+    if (now - lastLogoTapRef.current < 320) {
+      window.clearTimeout(logoTapTimerRef.current)
+      logoTapTimerRef.current = null
+      lastLogoTapRef.current = 0
+      document.getElementById('accueil')?.scrollIntoView({
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'start',
+      })
+      return
+    }
+
+    lastLogoTapRef.current = now
+    logoTapTimerRef.current = window.setTimeout(() => {
+      lastLogoTapRef.current = 0
+      logoTapTimerRef.current = null
+      if (!isEventWindowActive(Date.now())) {
+        setBaseTheme((theme) => theme === 'dark' ? 'light' : 'dark')
+      }
+    }, 320)
+  }
+
   return (
     <div className="min-h-screen pb-[82px] text-[var(--ink)] transition-colors duration-700 md:pb-0">
       <header className={`site-header sticky top-0 z-30 border-b border-[var(--line)] bg-[var(--page)]/90 backdrop-blur-xl ${hasScrolled ? 'is-scrolled' : ''}`}>
@@ -243,16 +275,18 @@ function App() {
             <button
               className={`theme-logo-button ${darkAppearance ? 'theme-logo-button-dark' : 'theme-logo-button-light'}`}
               type="button"
-              aria-label={eventIsLive ? 'Thème de la soirée All Black actif' : `Activer le thème ${darkAppearance ? 'clair' : 'sombre'}`}
+              aria-label={eventIsLive ? 'Logo Le Mont Royal, thème événement actif' : `Changer le thème ou double-taper pour revenir à l’accueil`}
               aria-pressed={darkAppearance}
-              title={eventIsLive ? 'Le thème événement est actif' : `Passer au thème ${darkAppearance ? 'clair' : 'sombre'}`}
-              disabled={eventIsLive}
-              onClick={() => setBaseTheme((theme) => theme === 'dark' ? 'light' : 'dark')}
+              aria-disabled={eventIsLive}
+              title={eventIsLive ? 'Thème événement · double-taper pour l’accueil' : 'Appuyer pour changer le thème · double-taper pour l’accueil'}
+              onClick={handleLogoButtonClick}
+              onContextMenu={(event) => event.preventDefault()}
             >
               <img
                 className="h-[36px] w-[48px] object-contain sm:h-[42px] sm:w-[56px]"
                 src={eventIsLive ? '/images/all-black-event-logo.png' : '/images/le-mont-royal-logo.png'}
                 alt=""
+                draggable="false"
                 width="612"
                 height="408"
               />
