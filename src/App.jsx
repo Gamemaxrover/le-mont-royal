@@ -23,6 +23,7 @@ import { drinks, getDrinkOfTheDay } from './data/drinks.js'
 const navigation = [
   { label: 'Accueil', href: '#accueil' },
   { label: 'Boissons', href: '#boissons' },
+  { label: 'Resto', href: '#restaurant' },
   { label: 'Événements', href: '#evenements' },
   { label: 'Galerie', href: '#galerie' },
   { label: 'À propos', href: '#apropos' },
@@ -460,6 +461,67 @@ function App() {
                 <strong>Bafoussam Akwa</strong>
               </div>
               <a className="hero-detail-link" data-reveal href="#contact">Nous contacter <ArrowDownRight size={17} /></a>
+            </div>
+          </div>
+        </section>
+
+        <section id="restaurant" className="resto-section scroll-mt-8 border-y border-[var(--line)]">
+          <div className="mx-auto grid max-w-[1320px] items-center gap-8 px-5 py-14 sm:px-8 sm:py-18 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14 lg:px-12 lg:py-20">
+            <div className="resto-copy" data-reveal>
+              <div className="resto-logo-frame">
+                <img
+                  src="/images/00_LE_MONT_ROYAL_logo_wordmark.png"
+                  alt="Le Mont Royal Resto — Saveurs, Qualité, Fraîcheur"
+                  width="365"
+                  height="175"
+                  loading="lazy"
+                />
+              </div>
+              <p className="resto-eyebrow">Cuisine africaine · Fait maison</p>
+              <h2 className="resto-title">Le goût du naturel<br /><span>dans votre assiette.</span></h2>
+              <p className="resto-description">
+                Découvrez une cuisine africaine généreuse, avec un plat du jour
+                en semaine, des spécialités à la carte et des menus sur commande
+                le week-end.
+              </p>
+              <div className="resto-details">
+                <div>
+                  <span>À partir de</span>
+                  <strong>1 500 FCFA</strong>
+                </div>
+                <div>
+                  <span>Nous trouver</span>
+                  <strong>Akwa · Face Maison des Vestes</strong>
+                </div>
+              </div>
+              <a className="resto-more-button" href="/resto">
+                En savoir plus <ArrowRight size={17} />
+              </a>
+            </div>
+
+            <div className="resto-visual-stack" data-reveal>
+              <img
+                className="resto-ambience"
+                src="/images/Warm_cinematic_photo_inside_an_elegant_African_res-1793796067186.png"
+                alt="Ambiance chaleureuse du restaurant Le Mont Royal"
+                loading="lazy"
+              />
+              <div className="resto-ambience-shade" />
+              <p className="resto-image-caption">Saveurs · Qualité · Fraîcheur</p>
+              <img
+                className="resto-dishes"
+                src="/images/dishes.png"
+                alt="Spécialités africaines du restaurant"
+                loading="lazy"
+              />
+              <figure className="resto-flyer-preview">
+                <img
+                  src="/images/IMG-20261103-WA0134%281%29.jpg"
+                  alt="Menu du restaurant Le Mont Royal avec les plats du jour et les accompagnements"
+                  loading="lazy"
+                />
+                <figcaption>La carte du Resto</figcaption>
+              </figure>
             </div>
           </div>
         </section>
