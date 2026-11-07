@@ -567,19 +567,23 @@ body::before {
 }
 
 .restaurant-page-brand {
-  display: block;
-  width: 210px;
-  height: 76px;
+  display: grid;
+  width: 78px;
+  height: 78px;
   flex: 0 0 auto;
+  place-items: center;
   overflow: hidden;
+  border: 1px solid #c99a4a;
+  border-radius: 50%;
   background: #080808;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 16%);
 }
 
 .restaurant-page-brand img {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .restaurant-page-links,
@@ -1175,8 +1179,8 @@ body::before {
   }
 
   .restaurant-page-brand {
-    width: 150px;
-    height: 58px;
+    width: 64px;
+    height: 64px;
   }
 
   .restaurant-page-links {

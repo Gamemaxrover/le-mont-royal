@@ -563,7 +563,7 @@ function App() {
                     <IconBadge icon={CalendarDays} size={17} />
                     <div>
                       <p className="font-semibold capitalize">{formatEventDate()}</p>
-                      <p className="mt-1 text-[var(--muted)]">Ouverture à 20H</p>
+                      <p className="mt-1 text-[var(--muted)]">Ouverture à 20H · heure du Cameroun (WAT)</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -576,7 +576,7 @@ function App() {
                 <div className="border-t border-[var(--line)] pt-5">
                   <div className="mb-4 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--muted)]">
                     <IconBadge icon={Clock3} size={13} compact />
-                    {eventIsLive ? "L'événement est en cours" : 'Le compte à rebours est lancé'}
+                    {eventIsLive ? "L'événement est en cours" : 'Compte à rebours jusqu’à 20H WAT'}
                   </div>
                   <div className="grid grid-cols-4 gap-2 sm:gap-3" aria-label="Compte à rebours">
                     {countdown.map((unit) => (
